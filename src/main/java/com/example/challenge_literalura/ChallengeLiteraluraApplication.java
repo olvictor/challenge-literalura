@@ -13,6 +13,5 @@ public class ChallengeLiteraluraApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("testando app");
 	}
 }
