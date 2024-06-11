@@ -1,5 +1,8 @@
 package com.example.challenge_literalura.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -20,5 +23,10 @@ public class Dados {
 
         var resposta = response.body();
         return resposta;
+    }
+
+    public <T> T converterDados(String Json, Class<T> Classe) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(Json, Classe);
     }
 }
