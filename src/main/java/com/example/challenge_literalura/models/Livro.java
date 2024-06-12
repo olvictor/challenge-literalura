@@ -1,15 +1,28 @@
 package com.example.challenge_literalura.models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
+@Table
+@Entity(name= "livros")
 public class Livro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
+
+    @ManyToOne
+    private Autor autor;
+
+    private String idioma;
+    private Integer numeroDeDownloads;
+
+
+    public Livro(String titulo, Autor autor, String idiomas, Integer numeroDeDownloads) {
+        this.titulo = titulo;
+        this.idioma = idiomas;
+        this.autor = autor;
+        this.numeroDeDownloads = numeroDeDownloads;
+    }
 
     public Long getId() {
         return id;
@@ -36,11 +49,11 @@ public class Livro {
     }
 
     public String getIdiomas() {
-        return idiomas;
+        return idioma;
     }
 
     public void setIdiomas(String idiomas) {
-        this.idiomas = idiomas;
+        this.idioma = idiomas;
     }
 
     public Integer getNumeroDeDownloads() {
@@ -51,20 +64,13 @@ public class Livro {
         this.numeroDeDownloads = numeroDeDownloads;
     }
 
-    @ManyToOne
-    private Autor autor;
-
-    private String idiomas;
-    private Integer numeroDeDownloads;
-
     @Override
     public String toString() {
-        return "Livro{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", autor=" + autor +
-                ", idiomas='" + idiomas + '\'' +
-                ", numeroDeDownloads=" + numeroDeDownloads +
-                '}';
+        return "---------- LIVRO ---------- \n"+
+                "Ttulo=" + titulo + '\n' +
+                "Autor=" + autor.getNome() + '\n' +
+                "Idioma=" + idioma + '\n' +
+                "Número De Downloads=" + numeroDeDownloads;
+
     }
 }

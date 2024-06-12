@@ -1,6 +1,11 @@
 package com.example.challenge_literalura.principal;
 
+import com.example.challenge_literalura.DTO.livroDTO;
+import com.example.challenge_literalura.DTO.resultsDTO;
+import com.example.challenge_literalura.models.Autor;
+import com.example.challenge_literalura.models.Livro;
 import com.example.challenge_literalura.services.Dados;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -35,19 +40,27 @@ public class Principal {
     }
 
 
-    public String buscarDados(){
+    public void buscarDados(){
        Dados dados = new Dados();
-       String resposta;
-       System.out.println("digite o nome do Livro : ");
-       var livro = leitura.nextLine();
+       JsonNode resposta;
 
-       var url = "https://gutendex.com/books/?search="+ livro.replace(" ","%20");
+
+       System.out.println("digite o nome do Livro : ");
+       var livroBuscar = leitura.nextLine();
+
+       var url = "https://gutendex.com/books/?search="+ livroBuscar.replace(" ","%20");
 
 
         try {
             resposta = dados.obterDados(url);
-          System.out.println(resposta);
-         return resposta;
+            var livroJSON =  dados.converterDados(String.valueOf(resposta.get(0)), livroDTO.class);
+            Autor autor = new Autor(livroJSON.autor().get(0).nome(),livroJSON.autor().get(0).getAnoDeNascimento(),livroJSON.autor().get(0).getAnoDeFalecimento());
+            Livro livro = new Livro(livroJSON.titulo(),autor,livroJSON.idiomas().get(0),livroJSON.numeroDeDownloads());
+
+           System.out.println(livroJSON.autor().get(0).nome());
+            System.out.println(livro);
+            System.out.println(autor);
+            
      } catch (IOException e) {
             throw new RuntimeException(e);
        } catch (InterruptedException e) {
