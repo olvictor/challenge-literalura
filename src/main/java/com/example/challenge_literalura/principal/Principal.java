@@ -5,15 +5,18 @@ import com.example.challenge_literalura.DTO.livroDTO;
 import com.example.challenge_literalura.models.Autor;
 import com.example.challenge_literalura.models.Livro;
 import com.example.challenge_literalura.repository.Repositorio;
+import com.example.challenge_literalura.repository.RepositorioAutor;
 import com.example.challenge_literalura.services.Dados;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
 
     private Repositorio repositorio;
+    private RepositorioAutor repositorioAutor;
     private String menu = """
             ------------------------
             
@@ -27,8 +30,9 @@ public class Principal {
     private Integer opcao = -1;
     Scanner leitura = new Scanner(System.in);
 
-    public Principal(Repositorio repositorio) {
+    public Principal(Repositorio repositorio, RepositorioAutor repositorioAutor) {
         this.repositorio = repositorio;
+        this.repositorioAutor = repositorioAutor;
     }
 
     public void exibeMenu(){
@@ -44,11 +48,34 @@ public class Principal {
                 case 2:
                     listarLivros();
                     break;
+                case 3:
+                    listarAutores();
+                    break;
+                case 4:
+                    listarAutoresVivos();
+                    break;
                 case 0:
                     opcao = 0;
                     break;
             }
         }
+    }
+
+    private void listarAutoresVivos() {
+        System.out.println("Insira o ano que deseja pesquisar :");
+        var ano = leitura.nextInt();
+        leitura.nextLine();
+        var autores = repositorioAutor.findAll();
+        var autoresVIvos =  autores.stream()
+                    .filter(a -> a.getAnoDeNascimento() <= ano && a.getAnoDeFalecimento() >= ano )
+                    .collect(Collectors.toList());
+        autoresVIvos.forEach(System.out::println);
+    }
+
+    private void listarAutores() {
+        var autores = repositorioAutor.findAll();
+        autores.stream()
+                .forEach(System.out::println);
     }
 
     private void listarLivros() {

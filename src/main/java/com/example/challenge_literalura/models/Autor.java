@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "autores")
@@ -20,7 +21,7 @@ public class Autor {
     private Integer anoDeNascimento;
     private Integer anoDeFalecimento;
 
-    @OneToMany(mappedBy = "autor")
+    @OneToMany(mappedBy = "autor",fetch = FetchType.EAGER)
     private List<Livro> livro;
 
     public Autor(String nome, LocalDate anoNascimento, LocalDate anoMorte) {
@@ -78,9 +79,11 @@ public class Autor {
     @Override
     public String toString() {
         return
-                "nome='" + nome + '\'' +
-                ", anoDeNascimento=" + anoDeNascimento +
-                ", anoDeFalecimento=" + anoDeFalecimento +
-                ", livros=" + livro ;
+                "Nome =" + nome + '\n' +
+                "Ano de Nascimento = " + anoDeNascimento +'\n' +
+                "Ano de Falecimento = " + anoDeFalecimento +'\n' +
+                "livros = [" + livro.stream()
+                        .map(Livro::getTitulo)
+                        .collect(Collectors.joining(","))+ "]";
     }
 }
