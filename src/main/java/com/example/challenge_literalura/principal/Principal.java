@@ -10,6 +10,9 @@ import com.example.challenge_literalura.services.Dados;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -54,11 +57,33 @@ public class Principal {
                 case 4:
                     listarAutoresVivos();
                     break;
+                case 5:
+                    listarLivrosEmUmDeterminadoIdioma();
+                    break;
                 case 0:
                     opcao = 0;
                     break;
             }
         }
+    }
+
+    private void listarLivrosEmUmDeterminadoIdioma() {
+        System.out.println("""
+                Em qual idioma deseja pesquisar? (digite a sigla)
+                es -  Espanhol
+                en -  Inglês
+                fr -  Francês
+                pt -  Português
+                """);
+        var idioma = leitura.nextLine();
+        var livros = repositorio.findAll();
+        List<Livro> livrosIdioma = livros.stream()
+                .filter(l -> Objects.equals(l.getIdiomas(), idioma))
+                .collect(Collectors.toList());
+        if(livrosIdioma.isEmpty()){
+                    System.out.println("Não existem livros nesse idioma em nosso banco de dados .");
+        }
+        livrosIdioma.forEach(System.out::println);
     }
 
     private void listarAutoresVivos() {
@@ -69,6 +94,9 @@ public class Principal {
         var autoresVIvos =  autores.stream()
                     .filter(a -> a.getAnoDeNascimento() <= ano && a.getAnoDeFalecimento() >= ano )
                     .collect(Collectors.toList());
+        if(autoresVIvos.isEmpty()){
+            System.out.println("Nenhum autor encotrado em nosso banco de dados .");
+        }
         autoresVIvos.forEach(System.out::println);
     }
 
