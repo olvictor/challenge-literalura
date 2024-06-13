@@ -23,11 +23,13 @@ public class Principal {
     private String menu = """
             ------------------------
             
-            1- Buscar livro pelo titulo
-            2- Listar livros registrados
-            3- Listar autores registrados
-            4- Listar autores vivos em 1 determinado ano
-            5- Listar livros em um determinado idioma
+            1- Buscar livro pelo titulo.
+            2- Listar livros registrados.
+            3- Listar autores registrados.
+            4- Listar autores vivos em 1 determinado ano.
+            5- Listar livros em um determinado idioma.
+            6- Listar top 10 livros mais baixados.
+
             0- Sair
             """;
     private Integer opcao = -1;
@@ -60,11 +62,19 @@ public class Principal {
                 case 5:
                     listarLivrosEmUmDeterminadoIdioma();
                     break;
+                case 6:
+                    listarTop10();
+                    break;
                 case 0:
                     opcao = 0;
                     break;
             }
         }
+    }
+
+    private void listarTop10() {
+        var top10 = repositorio.findFirst10ByOrderByNumeroDeDownloadsDesc();
+        top10.forEach(System.out::println);
     }
 
     private void listarLivrosEmUmDeterminadoIdioma() {

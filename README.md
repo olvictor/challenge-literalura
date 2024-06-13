@@ -3,7 +3,7 @@
 # :hammer: Funcionalidades do projeto
 
 - `Funcionalidade 1`: Buscar dados de livros .
-- `Funcionalidade 2`: Ao buscar os informaçoes de livros e autores são salvos no banco de dados
+- `Funcionalidade 2`: Ao buscar as informaçoes de livros os livros e autores são salvos no banco de dados.
 - `Funcionalidade 3`: Listar atores/livros salvos no banco de dados.
 - `Funcionalidade 4`: Buscar livros em uma determinada lingua.
 - `Funcionalidade 5`: Buscar autores vivos em 1 determinada data.

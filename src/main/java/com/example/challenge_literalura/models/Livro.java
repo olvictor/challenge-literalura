@@ -16,6 +16,8 @@ public class Livro {
     private Autor autor;
 
     private String idioma;
+
+    @Column(name = "numero_de_downloads")
     private Integer numeroDeDownloads;
 
     public Livro(){}
