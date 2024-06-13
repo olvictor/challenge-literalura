@@ -130,11 +130,6 @@ public class Principal {
             Autor autor = new Autor(livroJSON.autor().get(0).nome(),livroJSON.autor().get(0).getAnoDeNascimento(),livroJSON.autor().get(0).getAnoDeFalecimento());
             Livro livro = new Livro(livroJSON.titulo(),autor,livroJSON.idiomas().get(0),livroJSON.numeroDeDownloads());
 
-//           System.out.println(livroJSON.autor().get(0).nome());
-//           var teste = repositorio.findAll();
-//            System.out.println(teste);
-//            System.out.println(livro);
-//            System.out.println(autor);
             repositorio.save(livro);
             
      } catch (IOException e) {
