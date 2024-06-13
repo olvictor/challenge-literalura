@@ -1,9 +1,10 @@
 package com.example.challenge_literalura.principal;
 
 import com.example.challenge_literalura.DTO.livroDTO;
-import com.example.challenge_literalura.DTO.resultsDTO;
+
 import com.example.challenge_literalura.models.Autor;
 import com.example.challenge_literalura.models.Livro;
+import com.example.challenge_literalura.repository.Repositorio;
 import com.example.challenge_literalura.services.Dados;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -11,6 +12,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Principal {
+
+    private Repositorio repositorio;
     private String menu = """
             ------------------------
             
@@ -23,6 +26,11 @@ public class Principal {
             """;
     private Integer opcao = -1;
     Scanner leitura = new Scanner(System.in);
+
+    public Principal(Repositorio repositorio) {
+        this.repositorio = repositorio;
+    }
+
     public void exibeMenu(){
         while(opcao != 0){
             System.out.println(menu);
@@ -32,11 +40,21 @@ public class Principal {
                 case 1:
                     buscarDados();
                     break;
+
+                case 2:
+                    listarLivros();
+                    break;
                 case 0:
                     opcao = 0;
                     break;
             }
         }
+    }
+
+    private void listarLivros() {
+      var livros =  repositorio.findAll();
+      livros.stream()
+              .forEach(System.out::println);
     }
 
 
@@ -57,9 +75,12 @@ public class Principal {
             Autor autor = new Autor(livroJSON.autor().get(0).nome(),livroJSON.autor().get(0).getAnoDeNascimento(),livroJSON.autor().get(0).getAnoDeFalecimento());
             Livro livro = new Livro(livroJSON.titulo(),autor,livroJSON.idiomas().get(0),livroJSON.numeroDeDownloads());
 
-           System.out.println(livroJSON.autor().get(0).nome());
-            System.out.println(livro);
-            System.out.println(autor);
+//           System.out.println(livroJSON.autor().get(0).nome());
+//           var teste = repositorio.findAll();
+//            System.out.println(teste);
+//            System.out.println(livro);
+//            System.out.println(autor);
+            repositorio.save(livro);
             
      } catch (IOException e) {
             throw new RuntimeException(e);

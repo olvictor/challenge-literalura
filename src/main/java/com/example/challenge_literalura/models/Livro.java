@@ -8,15 +8,17 @@ public class Livro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private String titulo;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Autor autor;
 
     private String idioma;
     private Integer numeroDeDownloads;
 
-
+    public Livro(){}
     public Livro(String titulo, Autor autor, String idiomas, Integer numeroDeDownloads) {
         this.titulo = titulo;
         this.idioma = idiomas;
